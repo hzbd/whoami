@@ -1,23 +1,31 @@
-# Stage 1: Builder
-FROM rust:1-bullseye AS builder
+# --- Builder Stage ---
+# Use the official Rust image corresponding to the target platform.
+# Docker Buildx will automatically select the correct architecture (e.g., amd64 or arm64).
+FROM rust:1-slim-bullseye as builder
 
-RUN apt-get update && apt-get install -y musl-tools
-RUN rustup target add x86_64-unknown-linux-musl
-
+# Set the working directory.
 WORKDIR /usr/src/app
+
+# Copy the source code into the container.
 COPY . .
 
-WORKDIR /home/rust/src
-COPY . .
-RUN cargo build --release --locked --target x86_64-unknown-linux-musl
+# Build the application in release mode.
+# Cargo will compile natively for the platform this stage is run on.
+RUN cargo build --release
 
+# --- Final Stage ---
+# Use a minimal "distroless" base image for a small and secure final image.
+# It contains only the application and its runtime dependencies.
+FROM gcr.io/distroless/cc-debian11
 
-# Stage 2: Final Image
-FROM alpine:3.22
-LABEL maintainer="623 <hello@sconts.com>"
+# Copy the compiled binary from the builder stage.
+# The source path is consistent because each platform is built natively in its own builder.
+COPY --from=builder /usr/src/app/target/release/whoami /whoami
 
-ENV PORT 8000
-EXPOSE 8000
-COPY --from=builder /home/rust/src/target/x86_64-unknown-linux-musl/release/whoami /usr/local/bin/whoami
+# Expose the port the application will listen on.
+# The PORT environment variable is read by main.rs.
+EXPOSE 8080
+ENV PORT=8080
 
-CMD ["whoami"]
+# Set the command to run when the container starts.
+CMD ["/whoami"]
