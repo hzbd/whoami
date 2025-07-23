@@ -19,7 +19,6 @@ docker build -f Dockerfile -t containerpi/whoami .
 ### 1. Run container
 
 ```bash
-docker pull containerpi/whoami:latest
 docker run -d -p 8080:8080 --name whoami containerpi/whoami
 ```
 
