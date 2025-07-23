@@ -16,7 +16,7 @@ A tiny, high-performance HTTP service, written in Rust, that returns its hostnam
 docker build -f Dockerfile -t containerpi/whoami .
 ```
 
-### 1. Run container
+### 1. Run container ([dockerhub](https://hub.docker.com/r/containerpi/whoami))
 
 ```bash
 docker run -d -p 8080:8080 --name whoami containerpi/whoami
