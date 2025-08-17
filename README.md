@@ -5,7 +5,7 @@ A comprehensive, high-performance HTTP request & network information analyzer, b
 `whoami` is the ultimate debugging tool designed for containerized environments (like Kubernetes, Docker) and complex network topologies (behind API Gateways, Load Balancers, etc.). It goes far beyond just returning a hostname, providing a deep inspection of every incoming HTTP request and returning a detailed analysis report in JSON format.
 
 [![crates.io](https://img.shields.io/crates/v/whoami.svg)](https://crates.io/crates/whoami)
-[![CI](https://github.com/hzbd/whoami/actions/workflows/ci.yml/badge.svg)](https://github.com/hzbd/whoami/actions)
+[![Build and Push Docker Image](https://github.com/hzbd/whoami/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/hzbd/whoami/actions/workflows/docker-publish.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Core Features
